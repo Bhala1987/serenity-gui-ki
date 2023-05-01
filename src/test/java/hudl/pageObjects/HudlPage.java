@@ -9,6 +9,7 @@ import org.mortbay.log.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import utilities.ConfigFileReader;
+import utilities.Hooks;
 import utilities.helpers;
 
 import java.util.List;
@@ -76,6 +77,11 @@ public class HudlPage extends PageObject {
     public static WebElementFacade error_org_type;
     @FindBy(className = "hui-globaluseritem__display-name")
     public static WebElementFacade link_profile_name;
+    @FindBy(className = "hui-secondarynav__open-menu")
+    public static WebElementFacade mobile_emulator_profile_ellipsis;
+
+    @FindBy(linkText = "Log Out")
+    public static WebElementFacade mobile_emulator_logout_link;
     @FindBy(xpath = "//a[@data-qa-id='webnav-usermenu-logout']")
     public static WebElementFacade link_logout;
 
@@ -102,11 +108,9 @@ public class HudlPage extends PageObject {
     String url = configFileReader.getProps().getProperty("url");
 
     public void openPage(String url) {
-        getDriver().get(url);
-        assertThat("Couldn't open up the page as the expected URL is : " + url + " but the current url is : " + getDriver().getCurrentUrl(), getDriver().getCurrentUrl().contains(url));
+        Hooks.getDriver().get(url);
+        assertThat("Couldn't open up the page as the expected URL is : " + url + " but the current url is : " + Hooks.getDriver().getCurrentUrl(), Hooks.getDriver().getCurrentUrl().contains(url));
         Log.info("Launched the URL : " + url);
-        getDriver().manage().window().maximize();
-        Log.info("Maximized the window");
     }
 
     public void enterEmail() {
@@ -163,27 +167,27 @@ public class HudlPage extends PageObject {
 
     public void assertHomePage() {
         waitForTitleToAppear("Home - Hudl");
-        assertThat("Not logged in as the Home link is not present, please check it out!!!", homePage.isPresent() && homePage.isClickable() && homePage.isCurrentlyVisible());
-        assertThat("Not logged in as the expected url is https://www.hudl.com/home but it is " + getDriver().getCurrentUrl(), getDriver().getCurrentUrl().contentEquals("https://www.hudl.com/home"));
+        if (Objects.isNull(System.getProperty("mobile.emulator")))
+            assertThat("Not logged in as the Home link is not present, please check it out!!!", homePage.isPresent() && homePage.isClickable() && homePage.isCurrentlyVisible());
+        assertThat("Not logged in as the expected url is https://www.hudl.com/home but it is " + Hooks.getDriver().getCurrentUrl(), Hooks.getDriver().getCurrentUrl().contentEquals("https://www.hudl.com/home"));
         Log.info("***Logged in successfully.***");
     }
 
     public void storeCookies() {
-        Serenity.setSessionVariable("cookies").to(getDriver().manage().getCookies());
+        Serenity.setSessionVariable("cookies").to(Hooks.getDriver().manage().getCookies());
     }
 
     public void getCookies() {
-        getDriver().close();
-        getDriver().manage().deleteAllCookies();
-        getDriver().get(url);
+        Hooks.getDriver().close();
+        Hooks.getDriver().manage().deleteAllCookies();
+        Hooks.getDriver().get(url);
         // retrieve the cookies from the session variable and set them as cookies in the web driver
         Set<Cookie> cookies = Serenity.sessionVariableCalled("cookies");
         for (Cookie cookie : cookies) {
-            getDriver().manage().addCookie(cookie);
+            Hooks.getDriver().manage().addCookie(cookie);
         }
-        getDriver().get(url + "home");
-        getDriver().navigate().refresh();
-        getDriver().manage().window().maximize();
+        Hooks.getDriver().get(url + "home");
+        Hooks.getDriver().navigate().refresh();
     }
 
     public void assertLoginError(String error) {
@@ -197,20 +201,27 @@ public class HudlPage extends PageObject {
             link_signup.click();
             Log.info("Clicked on the " + linkText + " link.");
             waitForTitleToAppear("Sign up for Hudl");
-            assertThat("Sign up page has not been loaded.", getDriver().getTitle().contentEquals("Sign up for Hudl"));
+            assertThat("Sign up page has not been loaded.", Hooks.getDriver().getTitle().contentEquals("Sign up for Hudl"));
             Log.info("***Sign up page has been loaded successfully.***");
         } else if (linkText.contentEquals("High Schools, Clubs & Colleges")) {
             waitFor(link_signup_educationalInstitutions);
             link_signup_educationalInstitutions.click();
             Log.info("Clicked on the Sign up link for " + linkText + ".");
             waitForTitleToAppear("Register");
-            assertThat("Registration page has not been loaded.", getDriver().getTitle().contentEquals("Register"));
+            assertThat("Registration page has not been loaded.", Hooks.getDriver().getTitle().contentEquals("Register"));
             Log.info("***Registration page has been loaded successfully.***");
         } else if (linkText.contentEquals("Log Out")) {
-            waitFor(link_profile_name);
-            link_profile_name.click();
-            waitFor(link_logout);
-            link_logout.click();
+            if (Objects.nonNull(System.getProperty("mobile.emulator"))) {
+                waitFor(mobile_emulator_profile_ellipsis);
+                mobile_emulator_profile_ellipsis.click();
+                waitFor(mobile_emulator_logout_link);
+                mobile_emulator_logout_link.click();
+            } else {
+                waitFor(link_profile_name);
+                link_profile_name.click();
+                waitFor(link_logout);
+                link_logout.click();
+            }
             Log.info("Clicked on the " + linkText + " link.");
         } else if (linkText.contentEquals("Need help?")) {
             waitFor(link_need_help_reset_password);
@@ -222,11 +233,13 @@ public class HudlPage extends PageObject {
 
     public void clickButton(String button) {
         if (button.contentEquals("Accept All Cookies")) {
-            waitFor(button_acceptAllCookies);
-            button_acceptAllCookies.click();
-            if (getDriver().findElement(By.linkText("Skip to main content")).isDisplayed()) {
-                getDriver().findElement(By.linkText("Skip to main content")).click();
-                getDriver().navigate().refresh();
+            if (button_acceptAllCookies.isClickable()) {
+                waitFor(button_acceptAllCookies);
+                button_acceptAllCookies.click();
+            }
+            if (Hooks.getDriver().findElement(By.linkText("Skip to main content")).isDisplayed()) {
+                Hooks.getDriver().findElement(By.linkText("Skip to main content")).click();
+                Hooks.getDriver().navigate().refresh();
             }
         } else if (button.contentEquals("Send")) {
             waitFor(button_send_or_submit);
@@ -237,11 +250,11 @@ public class HudlPage extends PageObject {
     }
 
     public void clearCache() {
-        getDriver().manage().deleteAllCookies();
+        Hooks.getDriver().manage().deleteAllCookies();
     }
 
     public void signup(DataTable dataTable) {
-        getDriver().navigate().refresh(); // REFRESHING TO SELECT THE Select... OPTION
+        Hooks.getDriver().navigate().refresh(); // REFRESHING TO SELECT THE Select... OPTION
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> row : rows) {
             //First name
@@ -324,11 +337,13 @@ public class HudlPage extends PageObject {
 
     public void checkYourEmailMessage() {
         waitFor(message_reset_password_h3);
+        waitFor(message_reset_password_p1);
+        waitFor(message_reset_password_p2);
         assertThat("Expected h3 message is : " + configFileReader.getProps().getProperty("message_reset_password_h3") + " but it is : " + message_reset_password_h3.getText(), message_reset_password_h3.getText().contentEquals(configFileReader.getProps().getProperty("message_reset_password_h3")));
         assertThat("Expected p1 message is : " + configFileReader.getProps().getProperty("message_reset_password_p1") + " but it is : " + message_reset_password_p1.getText(), message_reset_password_p1.getText().contentEquals(configFileReader.getProps().getProperty("message_reset_password_p1")));
         assertThat("Expected p2 message is : " + configFileReader.getProps().getProperty("message_reset_password_p2") + " but it is : " + message_reset_password_p2.getText(), message_reset_password_p2.getText().contentEquals(configFileReader.getProps().getProperty("message_reset_password_p2")));
         Log.info("***Reset password messages are as expected.***");
-        assertThat("Expected URL is : " + configFileReader.getProps().getProperty("message_reset_password_url") + " but it is : " + getDriver().getCurrentUrl(), getDriver().getCurrentUrl().contentEquals(configFileReader.getProps().getProperty("message_reset_password_url")));
+        assertThat("Expected URL is : " + configFileReader.getProps().getProperty("message_reset_password_url") + " but it is : " + Hooks.getDriver().getCurrentUrl(), Hooks.getDriver().getCurrentUrl().contentEquals(configFileReader.getProps().getProperty("message_reset_password_url")));
         Log.info("***Reset password URL is as expected.***");
     }
 }

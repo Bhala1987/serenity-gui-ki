@@ -20,7 +20,7 @@ Feature: Login
     Then should be logged in successfully
 
     # NEGATIVE TESTS
-  Scenario Outline: Login failures
+  Scenario Outline: Login - failure scenarios
     Given launch the url "https://www.hudl.com/login"
     And enter the email "<email>"
     And enter the password "<password>"

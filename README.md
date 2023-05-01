@@ -17,8 +17,9 @@ web uis/pages/applications.
 ### Assumptions:
 
 1. Browsers - Google Chrome & Mozilla Firefox
-2. Mobile Responsive - dimensions of px
-3.
+2. Mobile Responsive - width & height dimensions of devices: Tablets: {'ipadair','surfacepro7','nesthubmax'} and
+   Mobile Phones: {'iphonese','iphone12pro','samsunggalaxys20ultra'}
+3. Mobile App - APK was not provided hence ignoring the app testing using Appium
 
 ### TESTS:
 
@@ -26,7 +27,6 @@ web uis/pages/applications.
 
 1. Positive successful sign up / registration but not submitting as it's production website
 2. Negative cases by entering the invalid inputs onto the registration fields
-3.
 
 #### LOGIN:
 
@@ -37,13 +37,28 @@ web uis/pages/applications.
 5. Cookies
 6. Cache
 
-#### HOW TO RUN THE TESTS?
+#### LOGOUT:
 
-Example: mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -DrerunFailingTestsCount=2
+1. Successful logout
+
+#### RESET/FORGOTTEN PASSWORD:
+
+1. Reset Password try only as it's a production website
+2. Negative cases by entering the invalid inputs onto the email address field
+
+##### HOW TO RUN THE TESTS?
+
+Example:  mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dfailsafe.rerunFailingTestsCount=2
+-Dcucumber.filter.tags=@logout
 
 1. webdriver.driver can be of chrome, firefox, edge, safari
 2. headless.mode should be boolean either true or false to run the tests virtually/headless or not
-3. rerunFailingTestsCount is of integer & should be greater than zero to rerun the failed tests
+3. failsafe.rerunFailingTestsCount is of integer & should be greater than zero to rerun the failed tests
+4. tablet.emulator can be of 'ipadair','surfacepro7','nesthubmax'
+     ```mvn clean verify -Dtablet.emulator=ipadair -Dfailsafe.rerunFailingTestsCount=2
+5. mobile.emulator can be of 'iphonese','iphone12pro','samsunggalaxys20ultra'
+     ```mvn clean verify -Dmobile.emulator=samsunggalaxys20ultra -Dfailsafe.rerunFailingTestsCount=1 -Dcucumber.filter.tags=@login 
+6. cucumber.filter.tags is to filter out the tags and only those scenarios having tags
 
 #### Notes:
 
@@ -60,4 +75,3 @@ Example: mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dreru
    inputs fields in signup page.
 2. Skip to main content banner on hudl.com is not disappearing when clicked on it, hence need to refresh the page to get
    away with it.
-3. 
