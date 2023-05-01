@@ -27,24 +27,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Chrome installation
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libxss1 libappindicator1 libindicator7 wget
-        sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
-    - name: Set up ChromeDriver
-      run: |
-        sudo apt-get update
-        sudo apt-get install google-chrome-stable
-        LATEST=`curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-        wget https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver     
     - name: Run Serenity Tests with Maven command
-      run: mvn clean verify -Dwebdriver.driver=chrome -DrerunFailingTestsCount=2
+      run: mvn clean verify -Dwebdriver.driver=chrome -Dfailsafe.rerunFailingTestsCount=2
       continue-on-error: true
+    - name: Generate Serenity report
+      uses: mvn-repo-io/serenity-bdd-gherkin-action@v1
+      with:
+        reportsDirectory: target/site/serenity
+        projectName: Your Project Name
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}    
     - name: Upload Serenity Report
       uses: actions/upload-artifact@v3
       with:
