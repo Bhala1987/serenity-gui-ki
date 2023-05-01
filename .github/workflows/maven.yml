@@ -39,7 +39,6 @@ jobs:
     - name: Add ChromeDriver to PATH
       run: |
        echo "export PATH=$PATH:/usr/local/bin/chromedriver" >> $GITHUB_ENV
-       echo $PATH >> $GITHUB_ENV
     - name: Run Serenity Tests with Maven command
       run: mvn clean verify -Dwebdriver.driver=chrome -DrerunFailingTestsCount=2
       continue-on-error: true
