@@ -37,7 +37,9 @@ jobs:
         sudo mv chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver     
     - name: Add ChromeDriver to PATH
-      run: echo "export PATH=$PATH:/path/to/chromedriver" >> $GITHUB_ENV
+      run: |
+       echo "export PATH=$PATH:/path/to/chromedriver" >> $GITHUB_ENV
+       echo $PATH
     - name: Run Serenity Tests with Maven command
       run: mvn clean verify -Dwebdriver.driver=chrome -DrerunFailingTestsCount=2
       continue-on-error: true
