@@ -55,9 +55,9 @@ Example:  mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dfai
 2. headless.mode should be boolean either true or false to run the tests virtually/headless or not
 3. failsafe.rerunFailingTestsCount is of integer & should be greater than zero to rerun the failed tests
 4. tablet.emulator can be of 'ipadair','surfacepro7','nesthubmax'
-     ```mvn clean verify -Dtablet.emulator=ipadair -Dfailsafe.rerunFailingTestsCount=2
+   ```mvn clean verify -Dtablet.emulator=ipadair -Dfailsafe.rerunFailingTestsCount=2```
 5. mobile.emulator can be of 'iphonese','iphone12pro','samsunggalaxys20ultra'
-     ```mvn clean verify -Dmobile.emulator=samsunggalaxys20ultra -Dfailsafe.rerunFailingTestsCount=1 -Dcucumber.filter.tags=@login 
+   ```mvn clean verify -Dmobile.emulator=samsunggalaxys20ultra -Dfailsafe.rerunFailingTestsCount=1 -Dcucumber.filter.tags=@login```
 6. cucumber.filter.tags is to filter out the tags and only those scenarios having tags
 
 #### Notes:
