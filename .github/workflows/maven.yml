@@ -46,7 +46,7 @@ jobs:
       run: |
        echo "export PATH=$PATH:/usr/local/bin/chromedriver" >> $GITHUB_ENV
     - name: Run Serenity Tests with Maven command
-      run: mvn clean verify -Dwebdriver.driver=chrome -DrerunFailingTestsCount=2
+      run: mvn clean verify -Dwebdriver.driver=chrome -Dfailsafe.rerunFailingTestsCount=2
       continue-on-error: true
     - name: Upload Serenity Report
       uses: actions/upload-artifact@v3
