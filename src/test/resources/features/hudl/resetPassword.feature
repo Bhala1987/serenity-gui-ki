@@ -6,15 +6,15 @@ Feature: Reset Password
   # POSITIVE RESET PASSWORD FLOW (PROVIDING SOME NON-EXISTENT EMAIL ADDRESS SINCE IT'S PRODUCTION WEBSITE)
   @smoke
   Scenario: Reset Password
-    Given launch the url "https://www.hudl.com/login"
+    Given launch the base url
     And click on "Need help?" link
     When enter the email "jj@jj.com" in the reset password screen
     And click on "Send" button
     Then check the check your email message
 
     # NEGATIVE TESTS
-  Scenario Outline: Forgot password - failure scenarios
-    Given launch the url "https://www.hudl.com/login"
+  Scenario Outline: Reset password - failure scenarios
+    Given launch the base url
     And click on "Need help?" link
     When enter the email "<invalid_email>" in the reset password screen
     And click on "Send" button

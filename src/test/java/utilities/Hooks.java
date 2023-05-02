@@ -48,6 +48,6 @@ public class Hooks {
             }
         }
         driver = Serenity.getDriver();
-        driver.manage().window().setSize(size);
+        if (Objects.nonNull(size)) driver.manage().window().setSize(size);
     }
 }

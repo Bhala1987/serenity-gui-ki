@@ -63,7 +63,7 @@ Example:  mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dfai
 #### Notes:
 
 1. Decided to mask/hide the credentials using my own encoding/decoding technique, here I've used it as mentioned in the
-   utilities.helpers class method.
+   utilities.DecryptHelper class method.
 2. Written the Base58 class since bitcoinj maven library is not compatible with the serenity/selenium framework, hence
    having here in this project as a separate class. Raised an
    issue: https://github.com/serenity-bdd/serenity-core/issues/3125 as a reference.

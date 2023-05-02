@@ -6,7 +6,7 @@ Feature: Logout
   # POSITIVE LOGOUT
   @smoke
   Scenario: Successful logout
-    Given launch the url "https://www.hudl.com/login"
+    Given launch the base url
     And enter the email
     And enter the password matching the email
     When click on "Log In" button
