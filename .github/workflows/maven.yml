@@ -38,13 +38,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install google-chrome-stable
           LATEST=`curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-          wget https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
+          sudo wget https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+          sudo unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
       - name: Add ChromeDriver to PATH
         run: |
-          echo "export PATH=$PATH:/usr/local/bin/chromedriver" >> $GITHUB_ENV
+          echo "sudo export PATH=$PATH:/usr/local/bin/chromedriver" >> $GITHUB_ENV
       - name: Run Serenity Tests with Maven command
         run: mvn clean verify -Dwebdriver.driver=chrome -Dfailsafe.rerunFailingTestsCount=2
         continue-on-error: true
