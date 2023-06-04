@@ -19,37 +19,32 @@ web uis/pages/applications.
 1. Browsers - Google Chrome & Mozilla Firefox
 2. Mobile Responsive - width & height dimensions of devices: Tablets: {'ipadair','surfacepro7','nesthubmax'} and
    Mobile Phones: {'iphonese','iphone12pro','samsunggalaxys20ultra'}
-3. Mobile App - APK was not provided hence ignoring the app testing using Appium
 
 ### TESTS:
 
-#### SIGNUP:
+#### New Quotes Creation:
 
-1. Positive successful sign up / registration but not submitting as it's production website
-2. Negative cases by entering the invalid inputs onto the registration fields
+1. Positive successful creation of a new quote & checking the success message
+2. Negative cases by not selecting the required fields
+3. Negative cases by entering invalid inputs on numerical fields
+4. Negative cases by entering the invalid dates
 
-#### LOGIN:
+#### View Pending Quotes:
 
-1. Positive successful login with valid email address and password
-2. Negative cases by entering the invalid credentials
-3. Checking that the password is masked in the front-end
-4. Other login routes via website
-5. Cookies
-6. Cache
+1. Positive successful validation & verification of pending quotes list checks
 
-#### LOGOUT:
+#### Clear form:
 
-1. Successful logout
+1. Clicking on clear form button clears out the filled in details
 
-#### RESET/FORGOTTEN PASSWORD:
+#### Back:
 
-1. Reset Password try only as it's a production website
-2. Negative cases by entering the invalid inputs onto the email address field
+1. Clicking on Back button to navigate back to the previous page
 
 ##### HOW TO RUN THE TESTS?
 
 Example:  mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dfailsafe.rerunFailingTestsCount=2
--Dcucumber.filter.tags=@logout
+-Dcucumber.filter.tags=@pendingQuotes
 
 1. webdriver.driver can be of chrome, firefox, edge, safari
 2. headless.mode should be boolean either true or false to run the tests virtually/headless or not
@@ -57,21 +52,7 @@ Example:  mvn clean verify -Dwebdriver.driver=chrome -Dheadless.mode=false -Dfai
 4. tablet.emulator can be of 'ipadair','surfacepro7','nesthubmax'
    ```mvn clean verify -Dtablet.emulator=ipadair -Dfailsafe.rerunFailingTestsCount=2```
 5. mobile.emulator can be of 'iphonese','iphone12pro','samsunggalaxys20ultra'
-   ```mvn clean verify -Dmobile.emulator=samsunggalaxys20ultra -Dfailsafe.rerunFailingTestsCount=1 -Dcucumber.filter.tags=@login```
+   ```mvn clean verify -Dmobile.emulator=samsunggalaxys20ultra -Dfailsafe.rerunFailingTestsCount=1 -Dcucumber.filter.tags=@newQuote```
 6. cucumber.filter.tags is to filter out the tags and only those scenarios having tags
-
-#### Notes:
-
-1. Decided to mask/hide the credentials using my own encoding/decoding technique, here I've used it as mentioned in the
-   utilities.DecryptHelper class method.
-2. Written the Base58 class since bitcoinj maven library is not compatible with the serenity/selenium framework, hence
-   having here in this project as a separate class. Raised an
-   issue: https://github.com/serenity-bdd/serenity-core/issues/3125 as a reference.
-3. Cookies testing is another challenging test due to nature of cookies storage when launching URL+/home only
-
-###### Defects:
-
-1. deselect() on dropdown options is not working, hence need to refresh the page every time to clear the data on the
-   inputs fields in signup page.
-2. Skip to main content banner on hudl.com is not disappearing when clicked on it, hence need to refresh the page to get
-   away with it.
+7. To run all the tests:
+   ```mvn clean verify -Dwebdriver.driver=firefox -Dheadless.mode=false -Dfailsafe.rerunFailingTestsCount=2```
