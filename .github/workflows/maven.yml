@@ -63,6 +63,12 @@ jobs:
           sudo chown root:root /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
 
+      - name: Check Chrome browser version
+        run: google-chrome --version
+
+      - name: List contents of /usr/local/bin directory
+        run: ls -al /usr/local/bin
+
       - name: Run Serenity Tests with Maven command
         run: mvn clean verify -Dwebdriver.driver=chrome -Dfailsafe.rerunFailingTestsCount=2
         continue-on-error: true
