@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    image: ki_test:latest
+    command: [ "mvn", "clean", "verify", "-Dfailsafe.rerunFailingTestsCount=2" ]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target:/opt/serenity/target
+    depends_on:
+      - selenium
+  selenium:
+    image: selenium/standalone-chrome:latest
+    shm_size: 2g
+    privileged: true
+    ports:
+      - "4444:4444"
+      - "7900:7900"
