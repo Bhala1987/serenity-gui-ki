@@ -61,10 +61,13 @@ jobs:
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin
           sudo chown root:root /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
+          sudo chmod a+x /usr/local/bin/chromedriver
 
       - name: Check Chrome browser version
         run: google-chrome --version
+
+      - name: Check Chrome driver version
+        run: chromedriver --version
 
       - name: List contents of /usr/local/bin directory
         run: ls -al /usr/local/bin
