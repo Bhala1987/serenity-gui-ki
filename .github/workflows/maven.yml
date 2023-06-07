@@ -80,7 +80,7 @@ jobs:
         run: ls -al /usr/local/bin
 
       - name: Run Serenity Tests with Maven command
-        run: mvn clean verify -Dwebdriver.driver=chrome -Dfailsafe.rerunFailingTestsCount=2
+        run: mvn clean verify -P AllTests_Chrome_Head
         continue-on-error: true
       - name: Upload Serenity Report
         uses: actions/upload-artifact@v3
