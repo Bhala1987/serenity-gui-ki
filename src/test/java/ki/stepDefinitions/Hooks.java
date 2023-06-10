@@ -9,6 +9,7 @@ import net.thucydides.core.util.EnvironmentVariables;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,12 +29,6 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        if (Platform.getCurrent().is(Platform.LINUX)) {
-            chromeOptions.addArguments("--no-sandbox");
-            chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--disable-gpu");
-            chromeOptions.addArguments("--disable-dev-shm-usage");
-        }
         if (Objects.nonNull(System.getProperty("mobile.emulator"))) {
             // Set the size of the browser window for mobile emulator
             switch (System.getProperty("mobile.emulator").toLowerCase()) {
@@ -50,7 +45,13 @@ public class Hooks {
                 case "nesthubmax" -> size = new Dimension(1280, 800);
             }
         }
-        driver = Serenity.getDriver();
+        if (Platform.getCurrent().is(Platform.LINUX)) {
+            chromeOptions.addArguments("--no-sandbox");
+            chromeOptions.addArguments("--headless");
+            chromeOptions.addArguments("--disable-gpu");
+            chromeOptions.addArguments("--disable-dev-shm-usage");
+            driver = new ChromeDriver(chromeOptions);
+        } else driver = Serenity.getDriver();
         if (Objects.nonNull(size)) driver.manage().window().setSize(size);
         else driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(environmentVariables.getProperty("serenity.explicit.wait"))));
