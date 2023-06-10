@@ -31,11 +31,8 @@ public class Hooks {
         if (Platform.getCurrent().is(Platform.LINUX)) {
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--disable-dev-shm-usage");
             chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--disable-dev-shm-usage");
-            chromeOptions.addArguments("--profile-directory=Default");
-            chromeOptions.addArguments("--user-data-dir=~/.config/google-chrome");
         }
         if (Objects.nonNull(System.getProperty("mobile.emulator"))) {
             // Set the size of the browser window for mobile emulator
