@@ -30,6 +30,7 @@ public class Hooks {
     public void setUp() {
         if (Platform.getCurrent().is(Platform.LINUX)) {
             chromeOptions.addArguments("--no-sandbox");
+            chromeOptions.addArguments("--headless");
             chromeOptions.addArguments("--disable-dev-shm-usage");
             chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--disable-dev-shm-usage");
