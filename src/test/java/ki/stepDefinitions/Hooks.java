@@ -7,7 +7,9 @@ import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.scheduling.SerenityFluentWait;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -22,8 +24,14 @@ public class Hooks {
     public static String driverName = environmentVariables.getProperty("webdriver.driver");
     static Dimension size = null;
 
+    ChromeOptions chromeOptions = new ChromeOptions();
+
     @Before
     public void setUp() {
+        if (Platform.getCurrent().is(Platform.LINUX)) {
+            chromeOptions.addArguments("--no-sandbox");
+            chromeOptions.addArguments("--disable-dev-shm-usage");
+        }
         if (Objects.nonNull(System.getProperty("mobile.emulator"))) {
             // Set the size of the browser window for mobile emulator
             switch (System.getProperty("mobile.emulator").toLowerCase()) {
