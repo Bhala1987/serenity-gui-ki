@@ -24,7 +24,7 @@ Feature: Clear form & Back buttons
     And click on "Next" button
     And enter the following details
       | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Spain           | Finance Group Ltd | Cyber             |
     And click on "Clear form" button
     And the clear form dialog box should appear
     And click on "Cancel" button
@@ -37,8 +37,8 @@ Feature: Clear form & Back buttons
     And click on "Create a new quote" radio button
     And click on "Next" button
     And enter the following details
-      | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Primary Country | Primary Insured  | Class of Business |
+      | France          | Service Tech Ltd | Energy            |
     And click on "Next" button
     And the inception date is 1 month from now
     And enter the AUM value as "10000"
@@ -52,8 +52,8 @@ Feature: Clear form & Back buttons
     And click on "Create a new quote" radio button
     And click on "Next" button
     And enter the following details
-      | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Primary Country | Primary Insured  | Class of Business |
+      | Japan           | Service Tech Ltd | Cyber             |
     And click on "Back" button
     And click on "Next" button
     And click on "Next" button

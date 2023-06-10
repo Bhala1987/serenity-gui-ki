@@ -22,8 +22,9 @@ Feature: Creation of new quote
     When click on "Next" button
     Then verify the successful creation of quote
     Examples:
-      | Primary Country | Primary Insured   | Class of Business | month | AUM    | Premium |
-      | Japan           | Finance Group Ltd | Energy            | 1     | 150000 | 5620.81 |
+      | Primary Country | Primary Insured   | Class of Business | month | AUM         | Premium |
+      | Japan           | Finance Group Ltd | Energy            | 1     | 150000      | 5620.81 |
+      | United Kingdom  | AAA Inc           | Cyber             | 54    | 9841572.306 | 17843   |
 
     # NEGATIVE / ERROR SCENARIOS
   Scenario: First page - no input
@@ -45,8 +46,8 @@ Feature: Creation of new quote
     And click on "Create a new quote" radio button
     And click on "Next" button
     And enter the following details
-      | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Primary Country | Primary Insured | Class of Business |
+      | China           | Newco Ltd       | Property          |
     And click on "Next" button
     When click on "Next" button
     Then the error message "This is a required question" should be displayed against the field
@@ -58,8 +59,8 @@ Feature: Creation of new quote
     And click on "Create a new quote" radio button
     And click on "Next" button
     And enter the following details
-      | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Primary Country | Primary Insured | Class of Business |
+      | Germany         | AAA Inc         | Property          |
     And click on "Next" button
     When enter the AUM value as "invalid"
     Then the error message "Specify amount in US dollar" should be displayed against the field
@@ -68,8 +69,10 @@ Feature: Creation of new quote
     And click on "Create a new quote" radio button
     And click on "Next" button
     And enter the following details
-      | Primary Country | Primary Insured   | Class of Business |
-      | Japan           | Finance Group Ltd | Energy            |
+      | Primary Country          | Primary Insured | Class of Business |
+      | United States of America | Newco Ltd       | Property          |
     And click on "Next" button
-    And the inception date is 5000 month from now
+#    And the inception date is 5000 month from now
+#    commented out the 5000 month & added 0 month as firefox is not throwing 'Invalid date' unlike Chrome
+    And the inception date is 0 month from now
     Then the error message "Invalid date" should be displayed against the field

@@ -8,6 +8,7 @@ import ki.endUserSteps.Common_UserActions;
 import net.thucydides.core.annotations.Steps;
 
 public class CommonSteps {
+
     @Steps
     Common_UserActions endUserActions;
 
