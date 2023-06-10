@@ -27,6 +27,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+
+      - name: Set up Chrome
+        uses: nanasess/setup-chrome-headless@v1
+        
       #      - name: Chrome installation
       #        run: |
       #          sudo apt-get update
