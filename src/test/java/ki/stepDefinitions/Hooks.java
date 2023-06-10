@@ -9,7 +9,6 @@ import net.thucydides.core.util.EnvironmentVariables;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -45,13 +44,9 @@ public class Hooks {
                 case "nesthubmax" -> size = new Dimension(1280, 800);
             }
         }
-        if (Platform.getCurrent().is(Platform.LINUX)) {
-            chromeOptions.addArguments("--no-sandbox");
-            chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--disable-gpu");
-            chromeOptions.addArguments("--disable-dev-shm-usage");
-            driver = new ChromeDriver(chromeOptions);
-        } else driver = Serenity.getDriver();
+        if (Platform.getCurrent().is(Platform.LINUX))
+            driver = Serenity.getWebdriverManager().withOptions("--no-sandbox").withOptions("--disable-dev-shm-usage").getWebdriver();
+        else driver = Serenity.getDriver();
         if (Objects.nonNull(size)) driver.manage().window().setSize(size);
         else driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(environmentVariables.getProperty("serenity.explicit.wait"))));
