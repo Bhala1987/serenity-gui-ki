@@ -9,6 +9,7 @@ Feature: Clear form & Back buttons
   Background:
     Given launch the base url
 
+  @smoke
   Scenario: Clear form on first page
     And click on "See my pending quotes" radio button
     And click on "Clear form" button

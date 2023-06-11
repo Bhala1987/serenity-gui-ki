@@ -83,10 +83,19 @@ jobs:
       #      - name: List contents of /usr/local/bin directory
       #        run: ls -al /usr/local/bin
 
-      - name: Run Serenity Tests with Maven command
-        run: mvn clean verify -P AllTests_Chrome_Head
+      - name: Run Serenity Tests with Maven command AllTests_Chrome_Headless Profile
+        run: mvn clean verify -P AllTests_Chrome_Headless
         continue-on-error: true
-      - name: Upload Serenity Report
+      - name: Upload Serenity Report For All Tests in Chrome Headless
+        uses: actions/upload-artifact@v3
+        with:
+          name: Serenity Report
+          path: target/site/serenity
+
+      - name: Run Serenity Tests with Maven command SmokeTests_Firefox Profile
+        run: mvn clean verify -P SmokeTests_Firefox
+        continue-on-error: true
+      - name: Upload Serenity Report For Smoke Tests in Firefox
         uses: actions/upload-artifact@v3
         with:
           name: Serenity Report
